@@ -1,0 +1,12 @@
+{
+  "name": "ASSIAA — votre conseillère AGC",
+  "short_name": "ASSIAA",
+  "description": "Assurances Générales du Cameroun (AGC) — Le gage de votre sécurité",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0b1f33",
+  "theme_color": "#0b1f33",
+  "icons": [
+    { "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+  ]
+}

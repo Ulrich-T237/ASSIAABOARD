@@ -1,0 +1,17 @@
+{
+  "name": "assiaa-web",
+  "version": "1.0.0",
+  "description": "ASSIAA — l'assistante web d'Assurances Générales du Cameroun (AGC), embarquable sur le site agc-assurances.com",
+  "main": "index.js",
+  "engines": { "node": ">=20" },
+  "scripts": {
+    "start": "node index.js",
+    "test": "node scripts/test-web.js"
+  },
+  "dependencies": {
+    "@google/genai": "2.32.0",
+    "dotenv": "18.0.9"
+  },
+  "license": "UNLICENSED",
+  "private": true
+}

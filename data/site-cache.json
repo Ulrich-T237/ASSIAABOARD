@@ -1,0 +1,74 @@
+{
+  "seededAt": "2026-11-06T00:00:00.000Z",
+  "lastAttempt": "2026-11-06T15:06:50.518Z",
+  "lastOk": "2026-11-10T15:59:57.457Z",
+  "pages": {
+    "/": {
+      "url": "https://agc-assurances.com/",
+      "file": "index.md",
+      "title": "AGC Assurances — accueil",
+      "fetchedAt": "2026-11-06T15:06:51.966Z"
+    },
+    "/a-propos/": {
+      "url": "https://agc-assurances.com/a-propos/",
+      "file": "a-propos.md",
+      "title": "À propos d’AGC",
+      "fetchedAt": "2026-11-06T15:06:52.594Z"
+    },
+    "/contact/": {
+      "url": "https://agc-assurances.com/contact/",
+      "file": "contact.md",
+      "title": "Contact & agences",
+      "fetchedAt": "2026-11-10T15:59:57.457Z"
+    },
+    "/assurance-auto/": {
+      "url": "https://agc-assurances.com/assurance-auto/",
+      "file": "assurance-auto.md",
+      "title": "Assurance automobile",
+      "fetchedAt": "2026-11-10T15:19:53.583Z"
+    },
+    "/assurance-sante-2/": {
+      "url": "https://agc-assurances.com/assurance-sante-2/",
+      "file": "assurance-sante.md",
+      "title": "Assurance santé & carte santé",
+      "fetchedAt": "2026-11-06T15:06:54.496Z"
+    },
+    "/assurance-voyage-2/": {
+      "url": "https://agc-assurances.com/assurance-voyage-2/",
+      "file": "assurance-voyage.md",
+      "title": "Assurance voyage",
+      "fetchedAt": "2026-11-06T15:06:55.126Z"
+    },
+    "/assurance-multirisques/": {
+      "url": "https://agc-assurances.com/assurance-multirisques/",
+      "file": "assurance-multirisques.md",
+      "title": "Assurance multirisques (MRH)",
+      "fetchedAt": "2026-11-06T15:06:55.753Z"
+    },
+    "/assurance-transport-2/": {
+      "url": "https://agc-assurances.com/assurance-transport-2/",
+      "file": "assurance-transport.md",
+      "title": "Assurance transport",
+      "fetchedAt": "2026-11-06T15:06:56.382Z"
+    },
+    "/responsabilite-civile/": {
+      "url": "https://agc-assurances.com/responsabilite-civile/",
+      "file": "rc-chef-famille.md",
+      "title": "Responsabilité civile — chef de famille",
+      "fetchedAt": "2026-11-06T15:06:57.016Z"
+    },
+    "/responsabilite-civile-du-chef-entreprise/": {
+      "url": "https://agc-assurances.com/responsabilite-civile-du-chef-entreprise/",
+      "file": "rc-chef-entreprise.md",
+      "title": "Responsabilité civile — chef d’entreprise",
+      "fetchedAt": "2026-11-06T15:06:57.644Z"
+    },
+    "/risques-techniques/": {
+      "url": "https://agc-assurances.com/risques-techniques/",
+      "file": "risques-techniques.md",
+      "title": "Risques techniques",
+      "fetchedAt": "2026-11-06T15:06:58.274Z"
+    }
+  },
+  "seededBy": "initial seed from the public site https://agc-assurances.com/ (fetched at build time)"
+}
