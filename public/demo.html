@@ -4,53 +4,92 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Démo — ASSIAA ajoutée à une page AGC</title>
+<link rel="icon" href="/avatar-96.png" type="image/png">
 <style>
-  :root{--navy:#0b1f33;--cyan:#7fd4ff;--gold:#ffd47f}
-  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;background:#f4f7fb;color:#152b40}
-  header{background:var(--navy);color:#eaf2fb;padding:18px 26px;display:flex;align-items:center;gap:14px}
-  header b{letter-spacing:2px;color:var(--cyan)}
-  nav{margin-left:auto;display:flex;gap:18px;font-size:.9rem;opacity:.85}
-  .hero{padding:56px 26px;max-width:900px;margin:0 auto}
-  h1{font-size:2rem;line-height:1.2;margin:0 0 12px}
-  .slogan{color:#1d6fb8;font-style:italic;font-weight:600}
-  .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:16px;margin-top:32px}
-  .card{background:#fff;border-radius:14px;padding:18px;box-shadow:0 8px 24px rgba(10,35,60,.08);border:1px solid #e3ebf4}
-  .card h3{margin:0 0 6px;font-size:1rem;color:#0b3a63}
-  .card p{margin:0;font-size:.86rem;color:#5b7794;line-height:1.5}
-  .note{max-width:900px;margin:34px auto 90px;padding:16px 20px;background:#fff;border-left:4px solid #1d6fb8;
-    border-radius:10px;font-size:.88rem;color:#3c5d7d;box-shadow:0 6px 18px rgba(10,35,60,.06)}
-  code{background:#eef4fa;padding:2px 6px;border-radius:5px;font-size:.86em}
+  :root{--red:#E2001A;--red-dark:#B40015;--navy:#0A2A5E;--ink:#16304F;--muted:#6B7F99;--line:#E3EAF3}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+    background:#F4F7FB;color:var(--ink)}
+  .wrap{max-width:430px;margin:0 auto;background:#fff;min-height:100dvh;box-shadow:0 0 60px rgba(10,42,94,.10)}
+  .topbar{display:flex;align-items:center;gap:10px;padding:12px 16px;background:#fff;border-bottom:1px solid var(--line)}
+  .agc-badge{background:var(--red);color:#fff;font-weight:800;font-size:.85rem;padding:5px 8px;border-radius:7px}
+  .topbar small{color:var(--muted);font-size:.68rem;line-height:1.1}
+  .topbar small b{display:block;color:var(--navy);font-size:.74rem}
+  .burger{margin-left:auto;width:26px;height:16px;border-top:2px solid var(--navy);border-bottom:2px solid var(--navy);position:relative}
+  .burger:after{content:"";position:absolute;top:5px;left:0;width:26px;border-top:2px solid var(--navy)}
+  .hero{background:linear-gradient(160deg,#F00020 0%,var(--red-dark) 100%);color:#fff;padding:26px 18px 30px;position:relative;overflow:hidden}
+  .hero:after{content:"";position:absolute;right:-40px;top:-40px;width:170px;height:170px;border-radius:50%;background:rgba(255,255,255,.09)}
+  .tag{display:inline-block;font-size:.66rem;letter-spacing:1.4px;border:1px solid rgba(255,255,255,.55);
+    border-radius:999px;padding:4px 10px;margin-bottom:12px}
+  .hero h1{font-size:1.6rem;line-height:1.15;margin:0 0 8px}
+  .hero p{font-size:.82rem;margin:0 0 16px;opacity:.95;max-width:290px;line-height:1.45}
+  .hero form{display:flex;gap:8px;background:#fff;border-radius:12px;padding:6px;box-shadow:0 10px 24px rgba(0,0,0,.18)}
+  .hero select{flex:1 1 auto;border:none;background:transparent;font:inherit;font-size:.84rem;color:var(--ink);padding:8px}
+  .hero button{border:none;background:var(--navy);color:#fff;font:inherit;font-size:.82rem;font-weight:700;
+    padding:9px 14px;border-radius:9px;cursor:pointer}
+  .stats{display:flex;gap:18px;margin-top:16px;font-size:.68rem;opacity:.9}
+  section{padding:20px 16px 8px}
+  h2{font-size:.95rem;margin:0 0 12px;display:flex;align-items:center}
+  h2 a{margin-left:auto;font-size:.72rem;color:var(--red);text-decoration:none}
+  .solutions{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+  .sol{background:#fff;border:1px solid var(--line);border-radius:14px;padding:12px 8px;text-align:center;
+    box-shadow:0 4px 14px rgba(10,42,94,.05)}
+  .sol .ico{font-size:1.3rem}
+  .sol b{display:block;font-size:.78rem;margin-top:6px;color:var(--red)}
+  .sol small{display:block;font-size:.6rem;color:var(--muted);margin-top:3px;line-height:1.25}
+  .wide{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
+  .wide .sol{text-align:left;display:flex;gap:8px;align-items:center}
+  .wide .sol b{color:var(--navy);margin:0}
+  .note{margin:18px 16px 90px;background:#fff;border-left:4px solid var(--red);border-radius:10px;padding:13px 15px;
+    font-size:.78rem;line-height:1.5;color:#3C5D7D;box-shadow:0 4px 14px rgba(10,42,94,.06)}
+  code{background:#F1F5FA;padding:2px 5px;border-radius:4px;font-size:.9em}
 </style>
 </head>
 <body>
-  <header>
-    <b>AGC</b> Assurances Générales du Cameroun
-    <nav><span>Nos produits</span><span>Agences</span><span>Espace Clients</span><span>Contact</span></nav>
-  </header>
+<div class="wrap">
+  <div class="topbar">
+    <span class="agc-badge">AGC</span>
+    <small><b>Assurances Générales</b>du Cameroun</small>
+    <span class="burger"></span>
+  </div>
 
-  <main class="hero">
-    <h1>Protéger ce qui compte pour vous, partout au Cameroun.</h1>
-    <p class="slogan">« Le gage de votre sécurité »</p>
-    <p style="color:#4a6a89;max-width:620px;line-height:1.65">
-      Ceci est une <b>page de démonstration</b> : elle imite une page du site AGC pour montrer comment
-      l’assistante s’ajoute. En bas à droite, la pastille <b>ASSIAA</b> ouvre l’assistante directement
-      dans la page — aucun changement de page, aucun compte à créer.
-    </p>
+  <div class="hero">
+    <span class="tag">AGC ASSIST 24/7</span>
+    <h1>Obtenez un devis rapide</h1>
+    <p>Prise en charge directe grâce à la carte santé AGC — simple, rapide, partout au Cameroun.</p>
+    <form onsubmit="return false">
+      <select>
+        <option>Assurance Santé</option>
+        <option>Assurance Automobile</option>
+        <option>Assurance Voyage</option>
+        <option>Multirisque Habitation</option>
+      </select>
+      <button>Soumettre</button>
+    </form>
+    <div class="stats"><span>✓ +25 ans d’expérience</span><span>✓ N°2 sinistres Cameroun</span></div>
+  </div>
 
-    <div class="cards">
-      <div class="card"><h3>🚗 Automobile</h3><p>9 formules, de la RC obligatoire au tous risques.</p></div>
-      <div class="card"><h3>🏥 Santé</h3><p>Remboursement direct ou tiers payant + carte santé AGC.</p></div>
-      <div class="card"><h3>✈️ Voyage</h3><p>Assistance médicale d’urgence à l’étranger avec IPA.</p></div>
-      <div class="card"><h3>🏠 Multirisques</h3><p>Habitation, commerces, bureaux, PME/PMI, industriel.</p></div>
+  <section>
+    <h2>Nos solutions <a href="#">Tout voir →</a></h2>
+    <div class="solutions">
+      <div class="sol"><div class="ico">🛡️</div><b>Santé</b><small>Tiers payant &amp; réseau de soins</small></div>
+      <div class="sol"><div class="ico">🚗</div><b>Auto</b><small>9 formules au choix</small></div>
+      <div class="sol"><div class="ico">✈️</div><b>Voyage</b><small>Assistance Inter Partner</small></div>
     </div>
-
-    <div class="note">
-      <b>Pour l’intégrer sur le vrai site :</b> une seule ligne avant <code>&lt;/body&gt;</code> —<br>
-      <code>&lt;script src="https://VOTRE-SERVICE.onrender.com/widget.js" defer&gt;&lt;/script&gt;</code>
+    <div class="wide">
+      <div class="sol"><div class="ico">📄</div><b>Attestation digitale</b></div>
+      <div class="sol"><div class="ico">🏅</div><b>N°2 règlement sinistres</b></div>
     </div>
-  </main>
+  </section>
 
-  <!-- ▼▼ L'UNIQUE LIGNE À AJOUTER SUR LA PAGE AGC ▼▼ -->
-  <script src="/widget.js" defer></script>
+  <div class="note">
+    <b>Page de démonstration.</b> La pastille rouge en bas à droite est l’assistante ASSIAA : elle s’ouvre
+    dans la page, sans changer de site. Sur le vrai site, une seule ligne suffit —<br><br>
+    <code>&lt;script src="https://VOTRE-SERVICE.onrender.com/widget.js" defer&gt;&lt;/script&gt;</code>
+  </div>
+</div>
+
+<!-- ▼ La seule ligne à ajouter sur le site AGC ▼ -->
+<script src="/widget.js" defer></script>
 </body>
 </html>

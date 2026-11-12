@@ -5,145 +5,213 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>ASSIAA — votre conseillère AGC</title>
 <meta name="description" content="ASSIAA, votre conseillère Assurances Générales du Cameroun (AGC). Posez votre question, obtenez un devis, déclarez un sinistre.">
-<meta name="theme-color" content="#0b1f33">
-<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<meta name="theme-color" content="#0A2A5E">
+<link rel="icon" href="/avatar-96.png" type="image/png">
+<link rel="apple-touch-icon" href="/icon-192.png">
 <link rel="manifest" href="/manifest.webmanifest">
 <style>
   :root{
-    --navy:#0b1f33; --navy-2:#0f2a44; --panel:#12314f; --line:#1d4468;
-    --cyan:#7fd4ff; --gold:#ffd47f; --text:#eaf2fb; --muted:#9fc4e8;
-    --wa:#25d366; --wa-dark:#128c4a; --bubble-them:#173d5e; --bubble-me:#1d6fb8;
-    --radius:18px;
+    --red:#E2001A; --red-dark:#B40015; --red-soft:#FDECEE;
+    --navy:#0A2A5E; --navy-2:#15417F; --navy-bubble:#123A72;
+    --ink:#16304F; --muted:#6B7F99; --line:#E3EAF3;
+    --bg:#EFF3F9; --card:#FFF; --cream:#FDF8EE; --cream-line:#F0E2C8;
+    --wa:#25D366; --wa-dark:#128C4A; --wa-soft:#F3FBF6;
+    --ok:#22C55E; --radius:16px;
   }
   *{box-sizing:border-box}
   html,body{height:100%}
   body{
-    margin:0; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
-    background:radial-gradient(1200px 800px at 50% -10%, #16395a 0%, #0b1f33 55%, #071523 100%);
-    color:var(--text); display:flex; flex-direction:column; align-items:center; justify-content:center;
-    padding:18px; min-height:100dvh;
+    margin:0; background:var(--bg); color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    display:flex; align-items:center; justify-content:center; padding:18px; min-height:100dvh;
   }
-  .shell{width:100%; max-width:760px; display:flex; flex-direction:column; height:min(860px, 92dvh);
-    background:linear-gradient(180deg,#0e2740,#0b1f33); border:1px solid var(--line); border-radius:24px;
-    box-shadow:0 30px 80px rgba(0,0,0,.55); overflow:hidden}
+  .app{
+    width:100%; max-width:480px; height:min(880px,94dvh); background:var(--card);
+    border-radius:26px; overflow:hidden; display:flex; flex-direction:column;
+    box-shadow:0 26px 70px rgba(10,42,94,.22), 0 2px 6px rgba(10,42,94,.08);
+  }
 
-  /* ---------- header ---------- */
-  header{display:flex; align-items:center; gap:12px; padding:14px 16px; background:linear-gradient(180deg,#12314f,#0f2a44);
+  /* ---------- brand bar ---------- */
+  .brandbar{display:flex; align-items:center; gap:10px; padding:11px 16px; background:#fff;
     border-bottom:1px solid var(--line); flex:0 0 auto}
-  .avatar{width:46px;height:46px;border-radius:50%;flex:0 0 auto;display:grid;place-items:center;
-    background:linear-gradient(145deg,#7fd4ff,#2a86d9); color:#06182a; font-weight:800; font-size:1.28rem;
-    box-shadow:0 0 0 3px rgba(127,212,255,.18)}
-  .who{min-width:0;flex:1 1 auto}
-  .who b{display:block;letter-spacing:1.6px;font-size:1.02rem}
-  .who span{display:block;font-size:.76rem;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--wa);margin-right:5px;
-    box-shadow:0 0 0 3px rgba(37,211,102,.18)}
-  .wa-btn{display:inline-flex;align-items:center;gap:7px;background:var(--wa);color:#04120a;text-decoration:none;
-    font-weight:700;font-size:.82rem;padding:10px 13px;border-radius:999px;white-space:nowrap;
-    box-shadow:0 6px 18px rgba(37,211,102,.28); transition:transform .12s ease, filter .12s ease}
-  .wa-btn:hover{transform:translateY(-1px);filter:brightness(1.06)}
-  .wa-btn svg{width:17px;height:17px;fill:currentColor}
+  .agc-mark{display:flex; align-items:center; gap:8px; text-decoration:none; color:inherit}
+  .agc-badge{background:var(--red); color:#fff; font-weight:800; font-size:.86rem; letter-spacing:.5px;
+    padding:5px 8px; border-radius:7px; line-height:1}
+  .agc-name{font-size:.72rem; color:var(--muted); line-height:1.15; max-width:190px}
+  .agc-name b{display:block; color:var(--navy); font-size:.78rem}
+  .brandbar .spacer{flex:1 1 auto}
+  .brandbar .help{font-size:.72rem; color:var(--red); font-weight:700; text-decoration:none; white-space:nowrap}
 
-  /* ---------- messages ---------- */
-  .thread{flex:1 1 auto; overflow-y:auto; padding:18px 16px 8px; display:flex; flex-direction:column; gap:10px;
-    scroll-behavior:smooth}
-  .thread::-webkit-scrollbar{width:8px}
-  .thread::-webkit-scrollbar-thumb{background:#1d4468;border-radius:8px}
-  .msg{max-width:86%; padding:12px 14px; border-radius:var(--radius); line-height:1.5; font-size:.94rem;
-    white-space:pre-wrap; word-wrap:break-word; animation:pop .18s ease-out}
-  @keyframes pop{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
-  .msg.assistant{align-self:flex-start; background:var(--bubble-them); border-bottom-left-radius:6px;
-    border:1px solid #1d4a72}
-  .msg.user{align-self:flex-end; background:var(--bubble-me); border-bottom-right-radius:6px}
-  .msg b, .msg strong{color:#fff}
-  .msg a{color:var(--cyan)}
-  .msg .b{font-weight:700;color:#fff}
-  .time{display:block;font-size:.66rem;color:rgba(234,242,251,.45);margin-top:6px}
+  /* ---------- chat header ---------- */
+  .chat-head{display:flex; align-items:center; gap:11px; padding:12px 14px; flex:0 0 auto;
+    background:linear-gradient(150deg,var(--navy) 0%,var(--navy-2) 100%); color:#fff;
+    box-shadow:0 6px 18px rgba(10,42,94,.28); z-index:2}
+  .icon-btn{width:34px; height:34px; border-radius:50%; border:none; background:rgba(255,255,255,.14);
+    color:#fff; display:grid; place-items:center; cursor:pointer; flex:0 0 auto; transition:background .15s}
+  .icon-btn:hover{background:rgba(255,255,255,.26)}
+  .icon-btn svg{width:17px; height:17px; fill:currentColor}
+  .head-ava{position:relative; flex:0 0 auto}
+  .head-ava img{width:42px; height:42px; border-radius:50%; object-fit:cover; border:2px solid rgba(255,255,255,.85); display:block; background:#fff}
+  .head-ava .dot{position:absolute; right:0; bottom:1px; width:11px; height:11px; border-radius:50%;
+    background:var(--ok); border:2px solid var(--navy)}
+  .head-txt{flex:1 1 auto; min-width:0}
+  .head-txt b{display:block; font-size:1rem; letter-spacing:.6px}
+  .head-txt span{display:block; font-size:.71rem; color:#CFE3FF; margin-top:1px; white-space:nowrap;
+    overflow:hidden; text-overflow:ellipsis}
+  .head-txt span i{color:#7CFFB2; font-style:normal}
 
-  .typing{align-self:flex-start;display:flex;gap:5px;padding:14px 16px;background:var(--bubble-them);
-    border-radius:var(--radius);border-bottom-left-radius:6px;border:1px solid #1d4a72}
-  .typing i{width:7px;height:7px;border-radius:50%;background:#8fc4ea;animation:blink 1.2s infinite}
+  /* ---------- thread ---------- */
+  .thread{flex:1 1 auto; overflow-y:auto; padding:16px 14px 6px; background:#F7F9FD;
+    display:flex; flex-direction:column; gap:10px; scroll-behavior:smooth}
+  .thread::-webkit-scrollbar{width:7px}
+  .thread::-webkit-scrollbar-thumb{background:#D3DEEC; border-radius:8px}
+  .row{display:flex; gap:8px; align-items:flex-end; max-width:100%}
+  .row.assistant{align-self:flex-start}
+  .row.user{align-self:flex-end; justify-content:flex-end}
+  .row .mini{width:26px; height:26px; border-radius:50%; object-fit:cover; flex:0 0 auto;
+    border:1px solid var(--line); background:#fff}
+  .msg{padding:11px 13px; border-radius:var(--radius); line-height:1.5; font-size:.92rem;
+    white-space:pre-wrap; word-wrap:break-word; animation:pop .18s ease-out; max-width:100%}
+  @keyframes pop{from{opacity:0; transform:translateY(6px)}to{opacity:1; transform:none}}
+  .row.assistant .msg{background:#fff; border:1px solid var(--line); border-bottom-left-radius:5px;
+    color:var(--ink); box-shadow:0 1px 2px rgba(16,48,79,.04)}
+  .row.user .msg{background:var(--navy-bubble); color:#fff; border-bottom-right-radius:5px;
+    box-shadow:0 2px 8px rgba(18,58,114,.25)}
+  .msg b{font-weight:700}
+  .row.assistant .msg b{color:var(--navy)}
+  .msg a{color:var(--red); font-weight:600}
+  .row.user .msg a{color:#BFE0FF}
+  .time{display:block; font-size:.63rem; color:#93A6BF; margin-top:5px}
+  .row.user .time{color:rgba(255,255,255,.65)}
+
+  .typing{align-self:flex-start; display:flex; gap:5px; padding:13px 15px; background:#fff;
+    border:1px solid var(--line); border-radius:var(--radius); border-bottom-left-radius:5px}
+  .typing i{width:7px; height:7px; border-radius:50%; background:#B9C9DE; animation:blink 1.2s infinite}
   .typing i:nth-child(2){animation-delay:.18s}
   .typing i:nth-child(3){animation-delay:.36s}
-  @keyframes blink{0%,60%,100%{opacity:.25;transform:translateY(0)}30%{opacity:1;transform:translateY(-3px)}}
+  @keyframes blink{0%,60%,100%{opacity:.3; transform:translateY(0)}30%{opacity:1; transform:translateY(-3px)}}
 
-  /* ---------- CTA card ---------- */
-  .cta-card{align-self:flex-start;max-width:92%;background:linear-gradient(160deg,#0f3a2a,#0e2b33);
-    border:1px solid rgba(37,211,102,.45); border-radius:16px; padding:14px 16px; display:flex; gap:12px;
-    align-items:center; animation:pop .2s ease-out}
-  .cta-card .ico{width:38px;height:38px;flex:0 0 auto;border-radius:50%;background:var(--wa);display:grid;place-items:center}
-  .cta-card .ico svg{width:21px;height:21px;fill:#04120a}
-  .cta-card p{margin:0 0 8px;font-size:.86rem;line-height:1.45;color:#d8f7e6}
-  .cta-card a{display:inline-flex;align-items:center;gap:6px;background:var(--wa);color:#04120a;font-weight:700;
-    text-decoration:none;font-size:.84rem;padding:9px 14px;border-radius:999px}
+  /* ---------- in-thread WhatsApp card ---------- */
+  .cta-card{align-self:flex-start; margin-left:34px; max-width:88%; background:var(--wa-soft);
+    border:1px solid #C9EBD6; border-radius:14px; padding:12px 13px; animation:pop .2s ease-out}
+  .cta-card p{margin:0 0 9px; font-size:.83rem; color:#20563A; line-height:1.45}
+  .cta-card a{display:inline-flex; align-items:center; gap:6px; background:var(--wa); color:#04220F;
+    font-weight:700; text-decoration:none; font-size:.82rem; padding:8px 13px; border-radius:999px}
+  .cta-card svg{width:15px; height:15px; fill:currentColor}
 
   /* ---------- chips ---------- */
-  .chips{display:flex;gap:8px;padding:4px 16px 0;overflow-x:auto;flex:0 0 auto;scrollbar-width:none}
+  .chips{display:flex; gap:7px; padding:2px 14px 8px; overflow-x:auto; flex:0 0 auto;
+    background:#F7F9FD; scrollbar-width:none}
   .chips::-webkit-scrollbar{display:none}
-  .chip{flex:0 0 auto;background:#14324d;border:1px solid var(--line);color:var(--text);border-radius:999px;
-    padding:8px 13px;font-size:.8rem;cursor:pointer;transition:background .15s ease}
-  .chip:hover{background:#1a3f60;border-color:#2a6a9e}
+  .chip{flex:0 0 auto; background:#fff; border:1px solid var(--line); color:var(--navy);
+    border-radius:999px; padding:7px 12px; font-size:.78rem; font-weight:600; cursor:pointer;
+    transition:border-color .15s, background .15s}
+  .chip:hover{border-color:var(--red); color:var(--red); background:var(--red-soft)}
+
+  /* ---------- action stack ---------- */
+  .actions{flex:0 0 auto; padding:10px 14px 0; background:#fff; border-top:1px solid var(--line);
+    display:flex; flex-direction:column; gap:8px}
+  .btn{display:flex; align-items:center; justify-content:center; gap:8px; width:100%;
+    padding:11px 14px; border-radius:12px; font-size:.88rem; font-weight:700; text-decoration:none;
+    cursor:pointer; border:1.5px solid transparent; transition:transform .12s ease, filter .12s ease}
+  .btn:hover{transform:translateY(-1px)}
+  .btn svg{width:16px; height:16px; fill:currentColor}
+  .btn-call{background:var(--red); color:#fff}
+  .btn-call:hover{filter:brightness(1.06)}
+  .btn-wa{background:#fff; color:var(--wa-dark); border-color:var(--wa); }
+  .btn-wa:hover{background:var(--wa-soft)}
 
   /* ---------- composer ---------- */
-  form{display:flex;gap:9px;padding:12px 14px;border-top:1px solid var(--line);background:#0d2438;flex:0 0 auto;
-    align-items:flex-end}
-  textarea{flex:1 1 auto;resize:none;border:1px solid var(--line);background:#0a1d2e;color:var(--text);
-    border-radius:16px;padding:12px 14px;font:inherit;font-size:.93rem;line-height:1.35;max-height:120px;min-height:46px}
-  textarea:focus{outline:none;border-color:#2a7fbe;box-shadow:0 0 0 3px rgba(42,127,190,.18)}
-  textarea::placeholder{color:#6f93b5}
-  .send{width:46px;height:46px;flex:0 0 auto;border:none;border-radius:50%;background:var(--bubble-me);color:#fff;
-    cursor:pointer;display:grid;place-items:center;transition:transform .12s ease,filter .12s ease}
-  .send:hover{transform:translateY(-1px);filter:brightness(1.1)}
-  .send:disabled{opacity:.5;cursor:not-allowed;transform:none}
-  .send svg{width:20px;height:20px;fill:currentColor}
-  .foot{flex:0 0 auto;padding:0 16px 10px;font-size:.68rem;color:#6f93b5;text-align:center;background:#0d2438}
-  .foot a{color:var(--muted)}
+  form{display:flex; gap:8px; padding:10px 14px 12px; background:#fff; align-items:flex-end; flex:0 0 auto}
+  textarea{flex:1 1 auto; resize:none; border:1px solid var(--line); background:#F7F9FD; color:var(--ink);
+    border-radius:24px; padding:12px 15px; font:inherit; font-size:.9rem; line-height:1.35;
+    max-height:110px; min-height:44px}
+  textarea:focus{outline:none; border-color:#B9CDE6; background:#fff; box-shadow:0 0 0 3px rgba(18,58,114,.08)}
+  textarea::placeholder{color:#9AAEC6}
+  .send{width:44px; height:44px; flex:0 0 auto; border:none; border-radius:50%; background:var(--red);
+    color:#fff; cursor:pointer; display:grid; place-items:center; transition:transform .12s, filter .12s}
+  .send:hover{transform:translateY(-1px); filter:brightness(1.07)}
+  .send:disabled{opacity:.5; cursor:not-allowed; transform:none}
+  .send svg{width:19px; height:19px; fill:currentColor}
+  .foot{flex:0 0 auto; padding:0 14px 9px; font-size:.66rem; color:#9AAEC6; text-align:center; background:#fff}
+  .foot a{color:var(--muted); text-decoration:none}
 
-  /* ---------- embedded mode (iframe widget) ---------- */
-  body.embedded{padding:0;justify-content:stretch;background:transparent}
-  body.embedded .shell{height:100dvh;max-width:none;border-radius:0;border:none;box-shadow:none}
+  /* ---------- embedded mode ---------- */
+  body.embedded{padding:0; align-items:stretch}
+  body.embedded .app{max-width:none; height:100dvh; border-radius:0; box-shadow:none}
+  body.embedded .brandbar{display:none}
   body.embedded .foot{display:none}
 
   @media (max-width:560px){
-    body{padding:0}
-    .shell{height:100dvh;max-width:none;border-radius:0;border:none;box-shadow:none}
-    .who span{font-size:.72rem}
-    .wa-btn span{display:none}
-    .wa-btn{padding:10px 11px}
+    body{padding:0; align-items:stretch}
+    .app{max-width:none; height:100dvh; border-radius:0; box-shadow:none}
+    .brandbar{display:none}
+    .foot{display:none}
+    .agc-name{display:none}
   }
 </style>
 </head>
 <body>
-<div class="shell" role="application" aria-label="ASSIAA — assistante AGC">
-  <header>
-    <div class="avatar" aria-hidden="true">A</div>
-    <div class="who">
-      <b>ASSIAA</b>
-      <span><span class="dot"></span><span id="status-line">votre conseillère Assurances Générales du Cameroun (AGC)</span></span>
-    </div>
-    <a class="wa-btn" id="wa-top" href="https://wa.me/237683708003" target="_blank" rel="noopener" aria-label="Continuer vers WhatsApp">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 3.5A11 11 0 0 0 3.2 16.7L2 22l5.5-1.2A11 11 0 0 0 20.5 3.5zM12 20a8 8 0 0 1-4.1-1.1l-.3-.2-3 .7.7-2.9-.2-.3A8 8 0 1 1 12 20zm4.5-6c-.2-.1-1.4-.7-1.6-.8s-.4-.1-.5.1-.6.8-.7 1-.3.2-.5.1a6.5 6.5 0 0 1-3.2-2.8c-.2-.4.2-.4.5-1.2.1-.2 0-.4 0-.5s-.5-1.3-.7-1.7-.3-.4-.5-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-1 2.2 5.2 5.2 0 0 0 1.1 2.8 11.7 11.7 0 0 0 4.5 4c1.9.7 2.3.6 2.8.5a2.6 2.6 0 0 0 1.7-1.2 2.1 2.1 0 0 0 .1-1.2c0-.2-.2-.2-.4-.3z"/></svg>
-      <span id="wa-top-label">Continuer vers WhatsApp</span>
-    </a>
-  </header>
+<div class="app">
 
+  <!-- brand bar -->
+  <div class="brandbar">
+    <a class="agc-mark" href="https://agc-assurances.com/" target="_blank" rel="noopener">
+      <span class="agc-badge">AGC</span>
+      <span class="agc-name"><b>Assurances Générales</b>du Cameroun</span>
+    </a>
+    <span class="spacer"></span>
+    <a class="help" href="tel:+237233438938">233 43 89 38</a>
+  </div>
+
+  <!-- chat header -->
+  <div class="chat-head">
+    <button class="icon-btn" id="close-btn" aria-label="Fermer">
+      <svg viewBox="0 0 24 24"><path d="M15.4 3.6a1.4 1.4 0 0 1 0 2L8.4 12l7 6.4a1.4 1.4 0 0 1-1.9 2.1l-8-7.4a1.4 1.4 0 0 1 0-2.1l8-7.4a1.4 1.4 0 0 1 1.9 0z"/></svg>
+    </button>
+    <div class="head-ava">
+      <img src="/avatar-96.png" alt="ASSIAA">
+      <span class="dot"></span>
+    </div>
+    <div class="head-txt">
+      <b>ASSIAA</b>
+      <span><i>En ligne</i> — répond en quelques secondes</span>
+    </div>
+    <a class="icon-btn" href="tel:+237233438938" aria-label="Appeler un conseiller">
+      <svg viewBox="0 0 24 24"><path d="M6.6 3h2.2c.6 0 1.1.4 1.2 1l.6 3c.1.5-.1.9-.5 1.1l-1.6 1a12 12 0 0 0 5.4 5.4l1-1.6c.2-.4.6-.6 1.1-.5l3 .6c.6.1 1 .6 1 1.2v2.2c0 1.2-1 2.2-2.2 2.1C10.9 18 6 13.1 5.5 5.2 5.4 4 6 3 6.6 3z"/></svg>
+    </a>
+  </div>
+
+  <!-- conversation -->
   <div class="thread" id="thread" aria-live="polite"></div>
 
   <div class="chips" id="chips">
-    <button class="chip" data-send="6">💬 Demander un devis</button>
+    <button class="chip" data-send="6">💬 Devis</button>
     <button class="chip" data-send="7">🚨 Déclarer un sinistre</button>
     <button class="chip" data-send="2">🏥 Santé</button>
     <button class="chip" data-send="9">📍 Nos agences</button>
-    <button class="chip" data-send="10">🕒 Horaires &amp; contact</button>
+    <button class="chip" data-send="10">🕒 Horaires</button>
+  </div>
+
+  <!-- actions + composer -->
+  <div class="actions">
+    <a class="btn btn-call" href="tel:+237233438938">
+      <svg viewBox="0 0 24 24"><path d="M6.6 3h2.2c.6 0 1.1.4 1.2 1l.6 3c.1.5-.1.9-.5 1.1l-1.6 1a12 12 0 0 0 5.4 5.4l1-1.6c.2-.4.6-.6 1.1-.5l3 .6c.6.1 1 .6 1 1.2v2.2c0 1.2-1 2.2-2.2 2.1C10.9 18 6 13.1 5.5 5.2 5.4 4 6 3 6.6 3z"/></svg>
+      Appeler un conseiller — 233 43 89 38
+    </a>
+    <a class="btn btn-wa" id="wa-main" href="https://wa.me/237683708003" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24"><path d="M20.5 3.5A11 11 0 0 0 3.2 16.7L2 22l5.5-1.2A11 11 0 0 0 20.5 3.5zM12 20a8 8 0 0 1-4.1-1.1l-.3-.2-3 .7.7-2.9-.2-.3A8 8 0 1 1 12 20zm4.5-6c-.2-.1-1.4-.7-1.6-.8s-.4-.1-.5.1-.6.8-.7 1-.3.2-.5.1a6.5 6.5 0 0 1-3.2-2.8c-.2-.4.2-.4.5-1.2.1-.2 0-.4 0-.5s-.5-1.3-.7-1.7-.3-.4-.5-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-1 2.2 5.2 5.2 0 0 0 1.1 2.8 11.7 11.7 0 0 0 4.5 4c1.9.7 2.3.6 2.8.5a2.6 2.6 0 0 0 1.7-1.2 2.1 2.1 0 0 0 .1-1.2c0-.2-.2-.2-.4-.3z"/></svg>
+      <span id="wa-main-label">Continuer sur WhatsApp</span>
+    </a>
   </div>
 
   <form id="composer" autocomplete="off">
-    <textarea id="input" rows="1" placeholder="Écrivez votre message à ASSIAA…" aria-label="Votre message"></textarea>
+    <textarea id="input" rows="1" placeholder="Écrivez votre message…" aria-label="Votre message"></textarea>
     <button class="send" id="send" type="submit" aria-label="Envoyer">
-      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3.4 20.4l17.5-7.5c.8-.4.8-1.5 0-1.9L3.4 3.6c-.7-.3-1.4.2-1.4.9v4.9c0 .5.4.9.8 1L15 12 2.8 13.6c-.4.1-.8.5-.8 1v4.9c0 .7.7 1.2 1.4.9z"/></svg>
+      <svg viewBox="0 0 24 24"><path d="M3.4 20.4l17.5-7.5c.8-.4.8-1.5 0-1.9L3.4 3.6c-.7-.3-1.4.2-1.4.9v4.9c0 .5.4.9.8 1L15 12 2.8 13.6c-.4.1-.8.5-.8 1v4.9c0 .7.7 1.2 1.4.9z"/></svg>
     </button>
   </form>
-  <div class="foot">Assurances Générales du Cameroun (AGC) · « Le gage de votre sécurité » · <a href="https://wa.me/237683708003" target="_blank" rel="noopener">WhatsApp +237 683 70 80 03</a></div>
+  <div class="foot">Assurances Générales du Cameroun · « Le gage de votre sécurité »</div>
 </div>
 
 <script>
@@ -155,19 +223,18 @@
   if (isEmbedded) document.body.classList.add("embedded");
 
   var thread = document.getElementById("thread");
-  var input  = document.getElementById("input");
-  var sendBtn= document.getElementById("send");
-  var form   = document.getElementById("composer");
-  var chips  = document.getElementById("chips");
-  var statusLine = document.getElementById("status-line");
-  var waTop  = document.getElementById("wa-top");
-  var waTopLabel = document.getElementById("wa-top-label");
+  var input = document.getElementById("input");
+  var sendBtn = document.getElementById("send");
+  var form = document.getElementById("composer");
+  var chips = document.getElementById("chips");
+  var waMain = document.getElementById("wa-main");
+  var waMainLabel = document.getElementById("wa-main-label");
+  var headStatus = document.querySelector(".head-txt span");
 
   var sessionId = localStorage.getItem("assiaa.session") || null;
   var busy = false;
   var lang = localStorage.getItem("assiaa.lang") || "fr";
 
-  /* ---------- helpers ---------- */
   function esc(s){
     return String(s).replace(/[&<>"']/g, function(c){
       return ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"})[c];
@@ -175,38 +242,39 @@
   }
   function fmt(text){
     var out = esc(text);
-    out = out.replace(/\*([^*\n]+)\*/g, "<b>$1</b>");                       // *gras* WhatsApp
+    out = out.replace(/\*([^*\n]+)\*/g, "<b>$1</b>");
     out = out.replace(/(https?:\/\/[^\s<]+)/g, '<a href="$1" target="_blank" rel="noopener">$1</a>');
     return out;
   }
   function nowTime(){
-    try{
-      return new Intl.DateTimeFormat("fr-FR", {hour:"2-digit", minute:"2-digit", timeZone:"Africa/Douala"}).format(new Date());
-    }catch(e){ return ""; }
+    try{ return new Intl.DateTimeFormat("fr-FR",{hour:"2-digit",minute:"2-digit",timeZone:"Africa/Douala"}).format(new Date()); }
+    catch(e){ return ""; }
   }
   function scrollDown(){ thread.scrollTop = thread.scrollHeight; }
 
   function addBubble(text, who){
-    var el = document.createElement("div");
-    el.className = "msg " + who;
-    el.innerHTML = fmt(text) + '<span class="time">' + nowTime() + "</span>";
-    thread.appendChild(el);
+    var row = document.createElement("div");
+    row.className = "row " + who;
+    if (who === "assistant") {
+      var av = document.createElement("img");
+      av.className = "mini"; av.src = "/avatar-96.png"; av.alt = "ASSIAA";
+      row.appendChild(av);
+    }
+    var bubble = document.createElement("div");
+    bubble.className = "msg";
+    bubble.innerHTML = fmt(text) + '<span class="time">' + nowTime() + "</span>";
+    row.appendChild(bubble);
+    thread.appendChild(row);
     scrollDown();
-    return el;
   }
 
   function showTyping(){
     var el = document.createElement("div");
-    el.className = "typing";
-    el.id = "typing";
+    el.className = "typing"; el.id = "typing";
     el.innerHTML = "<i></i><i></i><i></i>";
-    thread.appendChild(el);
-    scrollDown();
+    thread.appendChild(el); scrollDown();
   }
-  function hideTyping(){
-    var el = document.getElementById("typing");
-    if (el) el.remove();
-  }
+  function hideTyping(){ var el = document.getElementById("typing"); if (el) el.remove(); }
 
   function waUrl(text){
     return "https://wa.me/" + WA_NUMBER + "?text=" + encodeURIComponent(text || WA_OPENER);
@@ -214,19 +282,17 @@
 
   function addCta(wa){
     var url = (wa && wa.url) || waUrl();
-    var label = (lang === "en") ? "Continue on WhatsApp" : "Continuer vers WhatsApp";
-    var copy  = (lang === "en")
-      ? "Prefer to keep chatting on WhatsApp? An AGC advisor answers you there."
+    var label = lang === "en" ? "Continue on WhatsApp" : "Continuer vers WhatsApp";
+    var copy = lang === "en"
+      ? "Prefer to keep chatting on WhatsApp? An AGC adviser answers you there."
       : "Vous préférez continuer sur WhatsApp ? Un conseiller AGC vous y répond directement.";
     var card = document.createElement("div");
     card.className = "cta-card";
-    card.innerHTML =
-      '<div class="ico"><svg viewBox="0 0 24 24"><path d="M20.5 3.5A11 11 0 0 0 3.2 16.7L2 22l5.5-1.2A11 11 0 0 0 20.5 3.5zM12 20a8 8 0 0 1-4.1-1.1l-.3-.2-3 .7.7-2.9-.2-.3A8 8 0 1 1 12 20z"/></svg></div>' +
-      '<div><p>' + esc(copy) + '</p><a href="' + url + '" target="_blank" rel="noopener">' +
-      '<svg viewBox="0 0 24 24" width="15" height="15" style="fill:currentColor"><path d="M20.5 3.5A11 11 0 0 0 3.2 16.7L2 22l5.5-1.2A11 11 0 0 0 20.5 3.5z"/></svg> ' +
-      esc(label) + " (+237 683 70 80 03)</a></div>";
-    thread.appendChild(card);
-    scrollDown();
+    card.innerHTML = "<p>" + esc(copy) + "</p>" +
+      '<a href="' + url + '" target="_blank" rel="noopener">' +
+      '<svg viewBox="0 0 24 24"><path d="M20.5 3.5A11 11 0 0 0 3.2 16.7L2 22l5.5-1.2A11 11 0 0 0 20.5 3.5z"/></svg> ' +
+      esc(label) + " (+237 683 70 80 03)</a>";
+    thread.appendChild(card); scrollDown();
   }
 
   function applyLang(l){
@@ -234,39 +300,24 @@
     lang = l;
     localStorage.setItem("assiaa.lang", l);
     var en = l === "en";
-    waTopLabel.textContent = en ? "Continue on WhatsApp" : "Continuer vers WhatsApp";
-    input.placeholder = en ? "Write your message to ASSIAA…" : "Écrivez votre message à ASSIAA…";
-    statusLine.textContent = en
-      ? "your advisor at Assurances Générales du Cameroun (AGC)"
-      : "votre conseillère Assurances Générales du Cameroun (AGC)";
+    waMainLabel.textContent = en ? "Continue on WhatsApp" : "Continuer sur WhatsApp";
+    input.placeholder = en ? "Write your message…" : "Écrivez votre message…";
+    headStatus.innerHTML = en
+      ? '<i>Online</i> — replies in a few seconds'
+      : '<i>En ligne</i> — répond en quelques secondes';
   }
 
-  function setBusy(v){
-    busy = v;
-    sendBtn.disabled = v;
-    if (v) showTyping(); else hideTyping();
-  }
+  function setBusy(v){ busy = v; sendBtn.disabled = v; if (v) showTyping(); else hideTyping(); }
 
-  /* ---------- API ---------- */
   function post(path, body){
-    return fetch(path, {
-      method: "POST",
-      headers: {"content-type": "application/json"},
-      body: JSON.stringify(body || {})
-    }).then(function(r){
-      return r.json().catch(function(){ return {}; });
-    });
+    return fetch(path, {method:"POST", headers:{"content-type":"application/json"}, body:JSON.stringify(body || {})})
+      .then(function(r){ return r.json().catch(function(){ return {}; }); });
   }
 
   function renderReplies(data){
     hideTyping();
     (data.replies || []).forEach(function(t){
-      if (!t) return;
-      if (/(continuer vers whatsapp|continue on whatsapp)/i.test(t) && data.wa) {
-        // the CTA card replaces the raw instruction line for a cleaner look
-        addBubble(t);
-        return;
-      }
+      if (/^(continue|continuer)/i.test(t) && data.wa) { addBubble(t, "assistant"); return; }
       addBubble(t, "assistant");
     });
     applyLang(data.lang);
@@ -276,10 +327,8 @@
   function send(text){
     if (busy || !text.trim()) return;
     addBubble(text, "user");
-    input.value = "";
-    input.style.height = "auto";
+    input.value = ""; input.style.height = "auto";
     setBusy(true);
-
     post("/api/chat", {sessionId: sessionId, text: text})
       .then(function(data){
         setBusy(false);
@@ -295,41 +344,33 @@
       });
   }
 
-  /* ---------- boot: the assistant opens directly ---------- */
-  waTop.href = waUrl();
+  waMain.href = waUrl();
+  waMain.addEventListener("click", function(){ this.href = waUrl(); });
+
   post("/api/start", {sessionId: sessionId, lang: lang})
     .then(function(data){
       if (data.sessionId) { sessionId = data.sessionId; localStorage.setItem("assiaa.session", sessionId); }
       setBusy(false);
       renderReplies(data);
     })
-    .catch(function(){
-      addBubble("ASSIAA n’arrive pas à démarrer 😔 — rechargez la page dans un instant.", "assistant");
-    });
+    .catch(function(){ addBubble("ASSIAA n’arrive pas à démarrer 😔 — rechargez la page dans un instant.", "assistant"); });
 
-  /* ---------- input ---------- */
-  form.addEventListener("submit", function(e){
-    e.preventDefault();
-    send(input.value);
-  });
+  form.addEventListener("submit", function(e){ e.preventDefault(); send(input.value); });
   input.addEventListener("keydown", function(e){
-    if (e.key === "Enter" && !e.shiftKey) {
-      e.preventDefault();
-      send(input.value);
-    }
+    if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); send(input.value); }
   });
   input.addEventListener("input", function(){
     input.style.height = "auto";
-    input.style.height = Math.min(input.scrollHeight, 120) + "px";
+    input.style.height = Math.min(input.scrollHeight, 110) + "px";
   });
   chips.addEventListener("click", function(e){
     var b = e.target.closest(".chip");
     if (b) send(b.getAttribute("data-send"));
   });
 
-  // keep the WhatsApp links ready with the opener text
-  document.getElementById("wa-top").addEventListener("click", function(){
-    this.href = waUrl();
+  document.getElementById("close-btn").addEventListener("click", function(){
+    if (window.parent && window.parent !== window) window.parent.postMessage({assiaa:"close"}, "*");
+    else if (history.length > 1) history.back();
   });
 })();
 </script>
