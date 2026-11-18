@@ -44,29 +44,6 @@ module.exports = {
   // "AGCGI" style allow-list: who may call the API from a browser (comma separated, "*" = any)
   ALLOWED_ORIGINS: (process.env.ALLOWED_ORIGINS || '*').split(',').map((s) => s.trim()).filter(Boolean),
 
-  /* ------------------------------------------------------ Messenger (Meta) */
-  // Graph API version — bump if Meta returns "unknown version".
-  GRAPH_VERSION: process.env.GRAPH_VERSION || 'v24.0',
-  GRAPH_BASE: process.env.GRAPH_BASE || 'https://graph.facebook.com',
-
-  FB_APP_ID: process.env.FB_APP_ID || '',
-  FB_APP_SECRET: process.env.FB_APP_SECRET || '',
-  PAGE_ACCESS_TOKEN: process.env.PAGE_ACCESS_TOKEN || '',
-  PAGE_ID: process.env.PAGE_ID || '',
-  // Token Meta repeats back during the webhook handshake (we invent it ourselves).
-  VERIFY_TOKEN: process.env.VERIFY_TOKEN || '',
-
-  // Page Inbox app id — passing thread control here gives the conversation
-  // to a human in Meta Business Suite instead of a bot.
-  HANDOVER_APP_ID: process.env.HANDOVER_APP_ID || '263902037430900',
-  // Optional webhook (Slack/Teams/anything) called when a human is needed.
-  ALERT_WEBHOOK_URL: process.env.ALERT_WEBHOOK_URL || '',
-
-  // Dev helpers: no token yet? keep the bot fully testable.
-  DRY_RUN: String(process.env.DRY_RUN || '').toLowerCase() === '1',
-  // Guard for POST /api/simulate (leave empty to disable the route).
-  SIMULATE_TOKEN: process.env.SIMULATE_TOKEN || '',
-
   DATA_DIR: path.join(__dirname, '..', 'data'),
   PAGES_DIR: path.join(__dirname, '..', 'data', 'pages'),
   CACHE_META: path.join(__dirname, '..', 'data', 'site-cache.json'),

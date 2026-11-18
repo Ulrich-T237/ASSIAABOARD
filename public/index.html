@@ -274,16 +274,13 @@
 
   function addCta(wa){
     var url = (wa && wa.url) || waUrl();
-    var label = lang === "en" ? "Continue on WhatsApp" : "Continuer vers WhatsApp";
-    var copy = lang === "en"
-      ? "Prefer to keep chatting on WhatsApp? An AGC adviser answers you there."
-      : "Vous préférez continuer sur WhatsApp ? Un conseiller AGC vous y répond directement.";
+    // One word only, identical in both languages — nothing to translate, nothing to explain.
     var card = document.createElement("div");
     card.className = "cta-card";
-    card.innerHTML = "<p>" + esc(copy) + "</p>" +
+    card.innerHTML =
       '<a href="' + url + '" target="_blank" rel="noopener">' +
       '<svg viewBox="0 0 24 24"><path d="M20.5 3.5A11 11 0 0 0 3.2 16.7L2 22l5.5-1.2A11 11 0 0 0 20.5 3.5z"/></svg> ' +
-      esc(label) + " (+237 683 70 80 03)</a>";
+      'WhatsApp</a>';
     thread.appendChild(card); scrollDown();
   }
 
@@ -292,7 +289,7 @@
     lang = l;
     localStorage.setItem("assiaa.lang", l);
     var en = l === "en";
-    waMainLabel.textContent = en ? "Continue on WhatsApp" : "Continuer sur WhatsApp";
+    waMainLabel.textContent = "Continuer sur WhatsApp";
     input.placeholder = en ? "Write your message…" : "Écrivez votre message…";
     headStatus.innerHTML = en
       ? '<i>Online</i> — replies in a few seconds'
@@ -313,7 +310,10 @@
       addBubble(t, "assistant");
     });
     applyLang(data.lang);
-    if (data.wa) addCta(data.wa);
+    // One card, only when it matters: a completed devis/sinistre, or a reply
+    // that actually invites the visitor to continue on WhatsApp.
+    // No WhatsApp card inside the thread: the one permanent button under the
+    // conversation is enough, and it never duplicates the message.
   }
 
   function send(text){

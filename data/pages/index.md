@@ -105,6 +105,10 @@ Marge de solvabilité très confortable de 296,04 %
 Tout savoir à propos de AGC
 Nos actualités
 - Non classifié(e)
+La Carte Rose CEMAC numérique : à quoi sert-elle ?
+16 novembre 2026
+Read More
+- Non classifié(e)
 AGC Centrafrique témoigne son soutien aux représentants des Fauves U-20 lors de la remise du don à Bangui, le 4 novembre 2026.
 9 novembre 2026
 Read More
@@ -141,12 +145,6 @@ Read More
 - Certification
 La conformité chez AGC : une exigence fondée sur la rigueur, la transparence et l’engagement au quotidien
 19 juin 2026
-Read More
-- Assurance vie
-- Célébration
-- Certification
-AGC Assurances, N°2 en règlement des sinistres au Cameroun
-8 juin 2026
 Read More
 NOS CONSEILS
 OBTENIR UN DEVIS GRATUITEMENT ET SANS ENGAGEMENT

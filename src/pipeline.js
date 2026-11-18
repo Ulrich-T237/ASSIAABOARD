@@ -20,7 +20,7 @@ function waLink(text) {
 function waPayload(label, text) {
   return {
     url: waLink(text),
-    label: label || 'Continuer vers WhatsApp',
+    label: label || 'Continuer sur WhatsApp',
     number: cfg.WHATSAPP_NUMBER,
   }
 }
@@ -101,7 +101,7 @@ async function handle(sessionId, text) {
     if (result.saved) {
       const rec = result.saved.record
       const fr = lang !== 'en'
-      // hand the collected details to WhatsApp so a counsellor can take over instantly
+      // hand the collected details to ASSIAA on WhatsApp, so the visitor continues with her
       const summary =
         result.saved.kind === 'devis'
           ? fr
@@ -110,11 +110,11 @@ async function handle(sessionId, text) {
           : fr
             ? `Bonjour ASSIAA 👋 Je viens du site AGC.\nDéclaration de sinistre ${rec.ref}\n• Description : ${rec.description || '—'}\n• Ville : ${rec.city || '—'}\n• Contrat : ${rec.policy || '—'}`
             : `Hello ASSIAA 👋 I'm coming from the AGC website.\nClaim ${rec.ref}\n• Description: ${rec.description || '—'}\n• City: ${rec.city || '—'}\n• Policy: ${rec.policy || '—'}`
-      wa = waPayload(fr ? 'Continuer vers WhatsApp' : 'Continue on WhatsApp', summary)
+      wa = waPayload('Continuer sur WhatsApp', summary)
       result.replies.push(
         fr
-          ? 'Un conseiller AGC prend le relais 👍 Et si vous voulez accélérer, continuez directement sur WhatsApp avec le bouton ci-dessous — votre demande y est déjà résumée.'
-          : 'An AGC counsellor takes over from here 👍 Want to speed it up? Tap the button below to continue on WhatsApp — your request is already summarised there.'
+          ? 'Vous pouvez aussi continuer avec moi sur WhatsApp 🙂 Votre demande y est déjà résumée.'
+          : 'You can also carry on with me on WhatsApp 🙂 Your request is already summarised there.'
       )
       // best-effort trace on the server (no database needed)
       console.log(`[web] ${result.saved.kind} ${rec.ref} — ${rec.name || rec.city || 'anon'} — ${rec.product || rec.description || ''}`)

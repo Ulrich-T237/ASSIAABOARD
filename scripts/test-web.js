@@ -40,7 +40,7 @@ async function main() {
   check('menu 10 entrées', (boot.replies[1].match(/(?:[1-9]️⃣|🔟)/g) || []).length >= 10)
   check('CTA WhatsApp fourni dès l’ouverture', Boolean(boot.wa && boot.wa.url), JSON.stringify(boot.wa))
   check('CTA pointe vers 237683708003', (boot.wa.url || '').startsWith('https://wa.me/237683708003?text='), boot.wa.url)
-  check('CTA libellé FR', boot.wa.label === 'Continuer vers WhatsApp', boot.wa.label)
+  check('CTA libellé FR', boot.wa.label === 'Continuer sur WhatsApp', boot.wa.label)
   console.log(boot.replies[0] + '\n\n' + boot.replies[1])
   console.log('\nCTA → ' + boot.wa.url.slice(0, 90) + '…')
 
@@ -73,7 +73,7 @@ async function main() {
   check('→ détail/skip demandé', r.replies[0].includes('passer'))
   r = await pipeline.handle(sid, 'Toyota Corolla 2015')
   check('confirmation + référence DEV', r.replies[0].includes('DEV-'))
-  check('ligne conseiller ajoutée', r.replies.some((t) => /conseiller AGC prend le relais/i.test(t)))
+  check('renvoi vers ASSIAA sur WhatsApp (pas un conseiller)', r.replies.some((t) => /continuer avec moi sur WhatsApp/i.test(t)))
   check('CTA WhatsApp avec résumé', Boolean(r.wa && /je viens du site AGC/i.test(decodeURIComponent(r.wa.url))))
   check('résumé contient les infos saisies', /Toyota Corolla 2015/.test(decodeURIComponent(r.wa.url)) && /Jean Mballa/.test(decodeURIComponent(r.wa.url)))
   console.log('\nCTA devis →\n' + decodeURIComponent(r.wa.url.split('text=')[1]))
