@@ -12,8 +12,10 @@ function now() {
   return Date.now()
 }
 
-function create() {
-  const id = Math.random().toString(36).slice(2) + now().toString(36)
+function create(explicitId) {
+  // The Messenger channel keys a conversation by the visitor's PSID, so the id
+  // may be imposed by the caller; the web widget lets us generate it instead.
+  const id = explicitId || Math.random().toString(36).slice(2) + now().toString(36)
   const s = { id, lang: 'fr', flow: null, history: [], createdAt: now(), updatedAt: now() }
   sessions.set(id, s)
   prune()
@@ -33,7 +35,7 @@ function get(id) {
 }
 
 function getOrCreate(id) {
-  return get(id) || create()
+  return get(id) || create(id)
 }
 
 function push(session, role, text) {

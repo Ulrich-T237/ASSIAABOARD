@@ -1,152 +1,98 @@
-# ASSIAA — version WEB (site AGC)
+# ASSIAA — Messenger channel (AGC Facebook Page)
 
-L'assistante **ASSIAA** d'**Assurances Générales du Cameroun (AGC)** — « Le gage de votre sécurité » — en version **web**, à ajouter sur le site `agc-assurances.com`.
+The **third channel** of the same assistant. The WhatsApp bot (Baileys + MongoDB) and the
+web assistant stay untouched: this service only transports messages between Meta and the
+pipeline that already knows ASSIAA's script, her 10-item menu and AGC's 11 pages of memory.
 
-> **Projet totalement indépendant du bot WhatsApp.** Aucun Baileys, aucun téléphone lié, aucun MongoDB : c'est un petit serveur web autonome. Même assistante, même script, même cerveau, même mémoire du site AGC — et un bouton **« Continuer vers WhatsApp »** vers le **+237 683 70 80 03**.
+```
+Facebook Page ──webhook──▶ assiaa-messenger ──▶ pipeline (greeting · menu · flows · brain)
+       ▲                                              │
+       └────────────── Send API ◀──────────────────────┘
+```
 
 ---
 
-## Ce que fait l'assistante web
+## What can be done **without** Page admin rights
 
-| | |
+Everything below works today, with a personal Facebook account and a temporary Page you
+create yourself in 2 minutes (*Pages → Create → "ASSIAA test"*). Only the final switch onto
+the official AGC Page needs AGC's approval.
+
+| Step | Where | Time |
+|---|---|---|
+| 1. Create the Meta app (type **Business**) | developers.facebook.com → My Apps → Create app | 10 min |
+| 2. Add the **Messenger** product to that app | App dashboard → Add product → Messenger | 2 min |
+| 3. Copy **App ID** and **App Secret** | App settings → Basic | 2 min |
+| 4. Invent a **VERIFY_TOKEN** (any long random string) | your `.env` on Render | 1 min |
+| 5. Deploy this folder to Render, set the 5 env vars | Render → New Web Service | 10 min |
+| 6. Paste `https://<service>.onrender.com/webhook` in Messenger → Webhooks, subscribe to `messages` + `messaging_postbacks`, click **Verify and Save** | app dashboard | 5 min |
+| 7. Create your test Page, generate its **Page Access Token**, set `PAGE_ID` + `PAGE_ACCESS_TOKEN`, redeploy | app dashboard | 5 min |
+| 8. Message your Page from your own account — she answers | Messenger | — |
+
+> The webhook verification and the whole conversation are testable **before** any App
+> Review: admins and testers of an app in Development mode get full behaviour.
+
+---
+
+## Endpoints
+
+| Route | Purpose |
 |---|---|
-| 🎬 **S'ouvre directement** | La page (ou la pastille) affiche immédiatement le script : intro ASSIAA + menu numéroté, selon l'heure de **Douala** (Africa/Douala) |
-| 🧠 **Même cerveau** | Gemini (`gemini-3.5-flash-lite`, chaîne de repli complète) + outil `read_agc_site` : elle lit le site AGC en direct, répond à tout (assurance, vie, hors-sujet), FR ou EN selon **le dernier message** |
-| 🔢 **Menu identique** | 1 Automobile · 2 Santé · 3 Voyage · 4 MRH · 5 Autres produits · 6 Devis · 7 Sinistre · 8 Carte santé · 9 Agences · 10 Horaires & contact — au numéro **ou** au mot-clé |
-| 💬 **Devis / sinistre** | Elle collecte les informations, donne une référence (`DEV-…` / `SIN-…`) **et** prépare le résumé pour WhatsApp |
-| 📍 **Espace Clients** | « Vos contrats sont dans l'Espace Clients » — puis elle **demande la ville** et donne l'agence |
-| 🟢 **Continuer vers WhatsApp** | Bouton permanent dans l'en-tête + carte de transfert dans la conversation → `wa.me/237683708003`, message **pré-rempli** (avec le résumé de la demande si un devis/sinistre vient d'être rempli) |
+| `GET /webhook` | Meta handshake (`hub.challenge`), checked against `VERIFY_TOKEN` |
+| `POST /webhook` | inbound events — signature **required** (`X-Hub-Signature-256`), answered in milliseconds, processed after |
+| `POST /data-deletion` | Meta's signed callback → returns a `DEL-…` confirmation code |
+| `GET /privacy` | privacy policy (FR + EN) — **required by App Review** |
+| `GET /data-deletion` | deletion instructions (FR + EN) — **required by App Review** |
+| `POST /api/simulate?token=…` | talk to the brain without Meta (only if `SIMULATE_TOKEN` is set) |
+| `GET /api/health` | status + which credentials are missing |
+| `GET /ping` | keep-alive for cron-job.org |
+| `GET /` | one-page status card |
 
----
+## Environment variables
 
-## Identité visuelle (habillage AGC)
+| Variable | Required | Note |
+|---|---|---|
+| `GEMINI_API_KEY` | yes | same key as the other two services |
+| `GEMINI_MODEL` | no | `gemini-3.5-flash-lite` by default |
+| `FB_APP_ID` | no | for reference / diagnostics |
+| `FB_APP_SECRET` | **yes** | used to verify every webhook signature |
+| `VERIFY_TOKEN` | **yes** | must match the value typed in Meta |
+| `PAGE_ACCESS_TOKEN` | **yes** | Messenger → Settings → Access tokens |
+| `PAGE_ID` | no | the Page the token belongs to |
+| `GRAPH_VERSION` | no | `v24.0` — bump if Meta answers "unknown version" |
+| `HANDOVER_APP_ID` | no | `263902037430900` = Page Inbox (Meta Business Suite) |
+| `ALERT_WEBHOOK_URL` | no | POSTed when a visitor asks for a human |
+| `DRY_RUN` | no | `1` = never call Meta, log the replies instead |
+| `SIMULATE_TOKEN` | no | secret for `POST /api/simulate` (route disabled if empty) |
 
-- **Couleurs** : rouge AGC `#E2001A` (actions, pastille, boutons) · bleu marine `#0A2A5E` (en-tête de conversation) · fond blanc, bulles blanches pour l'assistante, bleu marine pour le visiteur.
-- **Avatar de l'assistante** : `public/avatar.png` (512 px), `avatar-256.png`, `avatar-96.png`, plus `icon-192.png` / `icon-512.png` pour l'application. Une seule image source suffit : remplacer ces fichiers pour changer de visuel partout (en-tête, à côté de chaque message, pastille flottante, favicon, icône PWA).
-- **Éléments repris de la maquette AGC** : barre de marque avec le bloc `AGC`, en-tête de conversation avec pastille verte « En ligne — répond en quelques secondes », bouton rouge **Appeler un conseiller — 233 43 89 38**, bouton vert contour **Continuer sur WhatsApp**, pastille flottante « Besoin d'aide ? Parlez à ASSIAA » + bouton rouge avec badge.
+Build: `npm install` · Start: `npm start` · Health: `/api/health`
 
-## Comment l'ajouter au site AGC (3 options)
-
-### Option 1 — la pastille flottante (recommandé, 1 ligne)
-
-Avant `</body>` de la page AGC (thème WordPress : *Apparence → Éditeur de thème → footer.php*, ou un bloc HTML/Elementor) :
-
-```html
-<script src="https://VOTRE-SERVICE.onrender.com/widget.js" defer></script>
-```
-
-→ Une pastille **ASSIAA** apparaît en bas à droite ; au clic, l'assistante s'ouvre **dans la page** (panneau flottant, iframe isolée : aucun conflit de style avec le thème).
-
-Variantes :
-```html
-<script src="https://VOTRE-SERVICE.onrender.com/widget.js"
-        data-position="left"          /* left | right */
-        data-label="Un conseil ? Écrivez-nous"
-        data-open="1"                 /* ouvre automatiquement */
-        defer></script>
-```
-
-### Option 2 — une section intégrée dans une page
-
-```html
-<iframe src="https://VOTRE-SERVICE.onrender.com/embed"
-        style="width:100%;height:640px;border:0;border-radius:16px"
-        title="ASSIAA — assistante AGC"></iframe>
-```
-
-### Option 3 — un bouton qui ouvre l'assistante en pleine page
-
-```html
-<a href="https://VOTRE-SERVICE.onrender.com/" target="_blank" rel="noopener">Parler à ASSIAA</a>
-```
-
-### Voir le rendu
-
-- `https://VOTRE-SERVICE.onrender.com/demo` → page de démonstration imitant une page AGC avec la pastille
-- `https://VOTRE-SERVICE.onrender.com/` → l'assistante en pleine page
-- `https://VOTRE-SERVICE.onrender.com/embed` → version sans habillage (pour iframe)
-
----
-
-## Déploiement (Render — nouveau service, indépendant)
-
-1. **GitHub** : nouveau dépôt (ex. `ASSIAA-WEB`) → y déposer ce dossier (glisser-déposer suffit).
-2. **Render → + New → Web Service** → choisir ce dépôt.
-   - Region : **Frankfurt** · Instance : **Starter (payant)** (ou Free pour tester)
-   - Build : `npm install` · Start : `npm start` · Health check : `/api/health`
-3. **Environment** :
-
-| Clé | Valeur |
-|---|---|
-| `GEMINI_API_KEY` | votre clé Gemini |
-| `GEMINI_MODEL` | `gemini-3.5-flash-lite` |
-| `GEMINI_MODEL_FALLBACKS` | `gemini-flash-lite-latest,gemini-3.1-flash-lite,gemini-3.5-flash,gemini-3.6-flash,gemini-3.8-flash,gemini-2.5-flash` |
-| `WHATSAPP_NUMBER` | `237683708003` |
-| `ALLOWED_ORIGINS` | `https://agc-assurances.com,https://www.agc-assurances.com` (ou `*`) |
-
-`PORT` est fourni par Render automatiquement.
-
-4. Copier l'URL du service (ex. `https://assiaa-web.onrender.com`) → c'est elle qui remplace `VOTRE-SERVICE` dans le snippet de la page AGC.
-
----
-
-## En local
+## Test without Meta
 
 ```bash
+cd assiaa-messenger
 npm install
-cp .env.example .env     # puis mettre GEMINI_API_KEY
-npm start                # http://localhost:10000  (demo: /demo · embed: /embed)
-npm test                 # recette : 44 contrôles (script, menu, flows, cerveau live, CTA)
+node scripts/test-messenger.js          # 65 checks, no network, no Meta, no Gemini
+node scripts/simulate.js "Bonjour"      # the real conversation, replies printed
+node scripts/simulate.js "devis"        # continues the same thread
+node scripts/simulate.js --new "sinistre"
 ```
 
----
+## Behaviour notes specific to Messenger
 
-## API (si vous voulez un bouton maison)
+- **First message** greets in the visitor's own language (detected from the text), then
+  attaches 4 quick replies to the menu so nobody has to type a number.
+- **Per-PSID sessions**, 3 h TTL, one conversation processed at a time so replies never
+  arrive out of order.
+- **Echoes, read and delivery receipts are ignored**; duplicate `mid` values are dropped.
+- **Attachments** (photo, voice note) get a polite answer with the adviser contact — the
+  conversation never goes silent.
+- **Handover**: "conseiller / agent / humain / advisor" passes the thread to the Page inbox
+  and the bot stays silent until control comes back.
+- **Messages longer than 2000 characters** are split on paragraph boundaries.
 
-```js
-// 1. ouvrir la conversation
-const s = await fetch('https://VOTRE-SERVICE/api/start', {
-  method:'POST', headers:{'content-type':'application/json'},
-  body: JSON.stringify({ lang:'fr' })
-}).then(r => r.json())
-// s.sessionId, s.replies[] (intro + menu), s.wa.url (lien WhatsApp pré-rempli)
+## What is deliberately NOT here
 
-// 2. envoyer un message
-const out = await fetch('https://VOTRE-SERVICE/api/chat', {
-  method:'POST', headers:{'content-type':'application/json'},
-  body: JSON.stringify({ sessionId: s.sessionId, text: '6' })
-}).then(r => r.json())
-// out.replies[], out.lang, out.wa.url
-```
-
-`GET /api/health` → état du service (uptime, modèle cerveau, nombre de sessions).
-
----
-
-## 24/7 sur l'offre gratuite (cron-job.org)
-
-Le plan Free de Render endort l'instance après ~15 min d'inactivité. Pour la réveiller sans frais :
-
-1. [cron-job.org](https://console.cron-job.org/dashboard) → **Create cronjob**
-2. **URL** : `https://VOTRE-SERVICE.onrender.com/api/health` (réponse JSON ≈190 octets, aucun accès base ni Gemini)
-3. **Schedule** : every **5 minutes** · timeout 30 s · « Save responses » décoché → **Test run**
-
-⚠️ **Quota Render Free : 750 heures-instance par mois.** Un service éveillé 24/7 en consomme ~730-744 : ne maintenez qu'**un** service éveillé en Free, ou passez l'autre en Starter ($7). Pour économiser, limitez le cron aux heures d'ouverture AGC (Lun-Sam 08h-18h heure de Douala ≈ 260 h/mois).
-
-## Notes techniques
-
-- **Pas de base de données** : la conversation vit en mémoire côté serveur (TTL **3 h**, max 2 000 sessions) — le navigateur garde seulement un identifiant. Les demandes de devis/sinistre ne sont pas stockées : elles sont **transmises par WhatsApp** (message pré-rempli) pour être traitées par un conseiller.
-- **Anti-abus** : limitation à **30 messages/minute/IP** sur `/api/chat`.
-- **CORS** : configurable via `ALLOWED_ORIGINS` (le widget passe par une iframe, donc même sans CORS il fonctionne).
-- **Mémoire du site** : `data/pages/*.md` (11 pages publiques d'AGC) + rafraîchissement automatique toutes les 6 h ; si le site est down, elle répond depuis la copie locale.
-- **Aucun secret côté navigateur** : la clé Gemini reste sur le serveur.
-- Mise à jour du contenu AGC : elle se fait toute seule (rafraîchissement) ; pour figer un texte, éditez `data/pages/`.
-
----
-
-## Recette (dernier passage : **44/44** ✅)
-
-```bash
-npm test
-```
-Couvre : ouverture directe FR/EN · menu 10 entrées · garanties issues du site · devis (référence + CTA pré-rempli) · sinistre · Espace Clients (demande la ville) · annulation · cerveau live FR + EN · horloge Douala · mémoire du site · numéro WhatsApp.
+- No Baileys, no MongoDB, no WhatsApp session: those belong to the WhatsApp service.
+- No page rendering, no widget: those belong to the web service.
+- Nothing is shared through a database — the three services stay independent.
