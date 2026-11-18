@@ -20,6 +20,7 @@ const pipeline = require('./pipeline')
 const sessions = require('./session')
 const knowledge = require('./knowledge')
 const brain = require('./brain')
+const legal = require('./legal')
 
 const STARTED_AT = Date.now()
 
@@ -175,6 +176,14 @@ function startServer() {
         if (pathname === '/embed') return serveStatic(res, 'index.html') // same UI, embedded chrome
         if (pathname === '/widget.js') return serveStatic(res, 'widget.js')
         if (pathname === '/demo') return serveStatic(res, 'demo.html')
+        if (pathname === '/privacy') {
+          res.writeHead(200, {
+            'content-type': 'text/html; charset=utf-8',
+            'cache-control': 'public, max-age=600',
+            'content-length': Buffer.byteLength(legal.PAGE),
+          })
+          return res.end(legal.PAGE)
+        }
         if (pathname === '/favicon.ico') return serveStatic(res, 'favicon.svg')
         if (pathname === '/manifest.webmanifest') return serveStatic(res, 'manifest.webmanifest')
         if (/^\/[a-z0-9._-]+\.(svg|png|jpg|css|js)$/i.test(pathname)) {

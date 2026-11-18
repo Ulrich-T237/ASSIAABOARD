@@ -19,6 +19,12 @@ L'assistante **ASSIAA** d'**Assurances Générales du Cameroun (AGC)** — « Le
 
 ---
 
+## Identité visuelle (habillage AGC)
+
+- **Couleurs** : rouge AGC `#E2001A` (actions, pastille, boutons) · bleu marine `#0A2A5E` (en-tête de conversation) · fond blanc, bulles blanches pour l'assistante, bleu marine pour le visiteur.
+- **Avatar de l'assistante** : `public/avatar.png` (512 px), `avatar-256.png`, `avatar-96.png`, plus `icon-192.png` / `icon-512.png` pour l'application. Une seule image source suffit : remplacer ces fichiers pour changer de visuel partout (en-tête, à côté de chaque message, pastille flottante, favicon, icône PWA).
+- **Éléments repris de la maquette AGC** : barre de marque avec le bloc `AGC`, en-tête de conversation avec pastille verte « En ligne — répond en quelques secondes », bouton rouge **Appeler un conseiller — 233 43 89 38**, bouton vert contour **Continuer sur WhatsApp**, pastille flottante « Besoin d'aide ? Parlez à ASSIAA » + bouton rouge avec badge.
+
 ## Comment l'ajouter au site AGC (3 options)
 
 ### Option 1 — la pastille flottante (recommandé, 1 ligne)
@@ -116,6 +122,16 @@ const out = await fetch('https://VOTRE-SERVICE/api/chat', {
 `GET /api/health` → état du service (uptime, modèle cerveau, nombre de sessions).
 
 ---
+
+## 24/7 sur l'offre gratuite (cron-job.org)
+
+Le plan Free de Render endort l'instance après ~15 min d'inactivité. Pour la réveiller sans frais :
+
+1. [cron-job.org](https://console.cron-job.org/dashboard) → **Create cronjob**
+2. **URL** : `https://VOTRE-SERVICE.onrender.com/api/health` (réponse JSON ≈190 octets, aucun accès base ni Gemini)
+3. **Schedule** : every **5 minutes** · timeout 30 s · « Save responses » décoché → **Test run**
+
+⚠️ **Quota Render Free : 750 heures-instance par mois.** Un service éveillé 24/7 en consomme ~730-744 : ne maintenez qu'**un** service éveillé en Free, ou passez l'autre en Starter ($7). Pour économiser, limitez le cron aux heures d'ouverture AGC (Lun-Sam 08h-18h heure de Douala ≈ 260 h/mois).
 
 ## Notes techniques
 
